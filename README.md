@@ -19,5 +19,15 @@ Container images become containers at runtime and in the case of Docker containe
 - **Lightweight**: Containers share the machine’s OS system kernel and therefore do not require an OS per application, driving higher server efficiencies and reducing server and licensing costs
 - **Secure**: Applications are safer in containers and Docker provides the strongest default isolation capabilities in the industry
 
-![Container explained](https://lh3.googleusercontent.com/MObTqkjP8d2Es3opfD3uO9JKv_PdJsXaeaAWVy3kU2pjqlq7Pw6CHfwuL-qYdNxzA9wSawOB4JOYWXRmwoUdl5ESBf-8UR6vfNgSnduUuSi0wqXh1psFqN3nO354Y6Bo2TferLMfvGHE5P_bznFeS-aFwQN68M4LiWWSsiybSZGF7UTO6KbMOTMmaSl7cPlEmrndgu3ybULNzczPTdw6ZfiaNzUOuuIzB9OCZ9mRZ1Kc3Qy0Fse_IdmOBfx0gtS3HGBwNhpDqlPdpO1xNIMUWc73OqTfPZCthjyC-7LN1O-UL124EhzMdM2iAjs5ZWcq09d7SIE1FQ9Vmm7jFKmdRddM8qC1pnsLZVB0vckSknbWWWRncDo4RJiVZcmeGSuLiaq8jt0d7Wz3w2c6Ydccqg4y9KCx3xH4hKKuTftT0OJeFFLwFmnQlUd2XzauTs963DJURLJtfVusWPj4jL51o1KLDiXvDo_0Us6iPTVzxFiiCXCUUUQeMBiV-ZRex_XLzoXZ6sFxMAwxY0AgxQzpqveBew1kpH1KfaRiwBdLLyQiGC6YjbnyyY_XyBKEbKuJbF5MP4HbRl2VUSJLJjE0gKuZW11YI7grT5fd4DAy18nYcyw-qNuLHIE6ovdTrEteaKKFPjBGx3lb3giyB6lQExAVsXr5oR91GVaz5Yf-V1AmECU_EeDVdEDRaNKv=w1084-h938-no?authuser=0)
+> Container vs virtual machine comparison 
+
+![Container vs Virtual Machine](images/container_vs_virtualmachine.svg)
+
+## What docker does 
+- Carves up a computer into sealed container that runs a code
+- Gets the code to adn fro from a computer.
+- Docker builds containers.
+- Docker has a social platform to find and share containers which are different from virtual machines.
+
+
 
