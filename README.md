@@ -37,3 +37,12 @@ Container images become containers at runtime and in the case of Docker containe
 - Gets the code to adn fro from a computer.
 - Docker builds containers.
 - Docker has a social platform to find and share containers which are different from virtual machines.
+
+## Installing docker on a windows machine
+- Search for docker desktop and install it from exe
+- We need a docker id to download docker desktop so create one.
+- It might as to use windows containers instead of linux, do not check that. Linux containers will be light weight.
+- Once installed to check if docker is running properly, see if the whale symbol is showing up in system tray if yes go to terminal and type command ``` docker info ```, it will provide bunch of information about docker.
+- To run a container locally use command ``` docker run container-name ``` like ``` docker run hello-world ```
+- This will check if we have docker image locally if not it wil pull from docker hub and then run in.
+
