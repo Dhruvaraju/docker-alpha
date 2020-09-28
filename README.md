@@ -1,7 +1,8 @@
 # docker-alpha
 
 learning log for docker
-[command-reference](#command-ref)
+[command reference](#command-reference)
+
 ## What is docker?
 
 - Docker is a container management tool.
@@ -39,19 +40,88 @@ Container images become containers at runtime and in the case of Docker containe
 - Docker has a social platform to find and share containers which are different from virtual machines.
 
 ## Installing docker on a windows machine
+
 - Search for docker desktop and install it from exe
 - We need a docker id to download docker desktop so create one.
 - It might as to use windows containers instead of linux, do not check that. Linux containers will be light weight.
-- Once installed to check if docker is running properly, see if the whale symbol is showing up in system tray if yes go to terminal and type command ``` docker info ```, it will provide bunch of information about docker.
-- To run a container locally use command ``` docker run container-name ``` like ``` docker run hello-world ```
+- Once installed to check if docker is running properly, see if the whale symbol is showing up in system tray if yes go to terminal and type command `docker info`, it will provide bunch of information about docker.
+- To run a container locally use command `docker run container-name` like `docker run hello-world`
 - This will check if we have docker image locally if not it wil pull from docker hub and then run in.
 
-## Docker images
+## Docker images to containers
+
 - Necessary parts of an os required to run your app is called an images
-- To find the images in your docker use command ``` docker images ``` #docker-images
+- To list the docker images run `docker images`, It will list images as shown below.
+
+```
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+hello-world         latest              bf756fb1ae65        8 months ago        13.3kB
+```
+
+- To run an image locally just use command `docker run <<image-name>>`
+- docker run converts an image in to a container example `docker run ubuntu`
+- docker run will also download an image if it is not found locally.
+
+`docker run -ti ubuntu:latest bash`
+
+- '-ti' stands for terminal interactive useful while running in terminal
+- 'ubuntu:latest' says to run the latest version of ubuntu.
+- 'bash' means open bash terminal after starting ubuntu.
+- to stop a container terminal use 'Ctrl+D' or exit command
+
+`docker ps`
+
+- used to list the current running images
+- after starting ubuntu the terminal will give an output as below
+
+![running-process](images/running-processes.png)
+
+- If we add files or do some work in an image and after completing it, if we close the container the container will not persist the files we edited by default.
+- Once we exit a container, docker closes it but it will not destroy it.
+- `docker ps -a` to see all the images stopped, available and running
+- `docker ps -l` to see the last exited container.
+
+# containers to images
+
+- If we had a container in which we created a file. or some app and we need to use it as a base image, we cna create images from containers.
+- `docker commit <<container-id>>` or `docker commit <<container-name>>` will create an images hash which is nothing but a new image created from your container with files in it.
+- ` docker tag <<hash-generated-from-docker-commit>> <<new-container-name>>` will assign the name provided as container name for the hash provided.
+
+- we can also use `docker commit <<container-id>> <<new-container-name>>` to generate a new image from an exiting stopped container.
+
+## basic docker life-cycle
+
+![docker life cycle](images/docker-lifecycle.svg)
 
 
 
-## Command Reference #command-ref
 
-- ``` docker images ``` : to see images that are available locally
+
+
+
+
+
+
+
+
+
+
+---
+
+## Command Reference
+
+- `docker images` : to see images that are available locally
+- `docker run <<image-name>>` : To run an image, converts an image in to a container, docker run will also download an image if it is not found locally.
+
+- `docker run -ti ubuntu:latest bash`
+
+    - '-ti' stands for terminal interactive useful while running in terminal
+    - 'ubuntu:latest' says to run the latest version of ubuntu.
+    - 'bash' means open bash terminal after starting ubuntu.
+
+- `docker ps` : used to see running images locally.
+- `docker ps -a` to see all the images stopped, available and running
+- `docker ps -l` to see the last exited container.
+- `docker commit <<container-id>>` or `docker commit <<container-name>>` will create an images hash which is nothing but a new image created from your container with files in it.
+- ` docker tag <<hash-generated-from-docker-commit>> <<new-container-name>>` will assign the name provided as container name for the hash provided.
+- `docker commit <<container-id>> <<new-container-name>>` to generate a new image from an exiting stopped container with name assigned to it.
