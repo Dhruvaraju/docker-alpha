@@ -1,7 +1,7 @@
 # docker-alpha
 
 learning log for docker
-
+[command-reference](#command-ref)
 ## What is docker?
 
 - Docker is a container management tool.
@@ -46,3 +46,12 @@ Container images become containers at runtime and in the case of Docker containe
 - To run a container locally use command ``` docker run container-name ``` like ``` docker run hello-world ```
 - This will check if we have docker image locally if not it wil pull from docker hub and then run in.
 
+## Docker images
+- Necessary parts of an os required to run your app is called an images
+- To find the images in your docker use command ``` docker images ``` #docker-images
+
+
+
+## Command Reference #command-ref
+
+- ``` docker images ``` : to see images that are available locally
