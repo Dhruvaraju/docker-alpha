@@ -1,4 +1,5 @@
 ## Table of contents
+
 - [docker-alpha](#docker-alpha)
   - [What is docker?](#what-is-docker)
   - [What is a container?](#what-is-a-container)
@@ -8,6 +9,7 @@
   - [Docker images to containers](#docker-images-to-containers)
 - [containers to images](#containers-to-images)
   - [basic docker life-cycle](#basic-docker-life-cycle)
+    - [Defining docker image through docker file](#defining-docker-image-through-docker-file)
   - [Command Reference](#command-reference)
 
 # docker-alpha
@@ -105,18 +107,36 @@ hello-world         latest              bf756fb1ae65        8 months ago        
 
 ![docker life cycle](images/docker-lifecycle.svg)
 
+### Defining docker image through docker file
 
+- Take a sample project, A node app is taken as example.
+- Create a file with name `Dockerfile` without any extension.
+- We need to add few parameters as shown below to the file
 
+```docker
+FROM node
+WORKDIR /app
+COPY . /app
+RUN npm install
+EXPOSE 80
+CMD ["node", "server.js"]
+```
 
+- `FROM node` refers that create an image with base as node image.
+- `WORKDIR /app` To specify the working directory inside container.
+- `COPY . /app` To copy all the code in the folder to app folder in container.
+- `RUN npm install` to run npm install while building the container.
+- `EXPOSE 80` for documentation purpose only stating which port we are exposing.
+- `CMD ["node", "server.js"]` to run `node server.js` command on starting the container
 
+> Once after defining the file run `docker build .` command which will create an image and give its name.
 
+- To expose a port on container that need to run on a local port with `-p` switch
+- In the below command we are attaching local port 3000 with container port 80
 
-
-
-
-
-
-
+```dos
+docker run -p 3000:80 09cee1f75310aab7bf58ad883454
+```
 
 ---
 
@@ -127,9 +147,9 @@ hello-world         latest              bf756fb1ae65        8 months ago        
 
 - `docker run -ti ubuntu:latest bash`
 
-    - '-ti' stands for terminal interactive useful while running in terminal
-    - 'ubuntu:latest' says to run the latest version of ubuntu.
-    - 'bash' means open bash terminal after starting ubuntu.
+  - '-ti' stands for terminal interactive useful while running in terminal
+  - 'ubuntu:latest' says to run the latest version of ubuntu.
+  - 'bash' means open bash terminal after starting ubuntu.
 
 - `docker ps` : used to see running images locally.
 - `docker ps -a` to see all the images stopped, available and running
@@ -137,3 +157,5 @@ hello-world         latest              bf756fb1ae65        8 months ago        
 - `docker commit <<container-id>>` or `docker commit <<container-name>>` will create an images hash which is nothing but a new image created from your container with files in it.
 - ` docker tag <<hash-generated-from-docker-commit>> <<new-container-name>>` will assign the name provided as container name for the hash provided.
 - `docker commit <<container-id>> <<new-container-name>>` to generate a new image from an exiting stopped container with name assigned to it.
+- `docker run -p 3000:80 abcdefgh` to run docker image `abcdefgh` on local port 3000 where container port 80 is exposed.
+- `docker stop <<image-name>>` to stop a docker container.
