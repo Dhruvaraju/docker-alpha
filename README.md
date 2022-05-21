@@ -10,7 +10,8 @@
 - [containers to images](#containers-to-images)
   - [basic docker life-cycle](#basic-docker-life-cycle)
     - [Defining docker image through docker file](#defining-docker-image-through-docker-file)
-  - [Command Reference](#command-reference)
+    - [Docker images are readonly](#docker-images-are-readonly)
+    - [Image Layers](#image-layers)
 
 # docker-alpha
 
@@ -138,24 +139,48 @@ CMD ["node", "server.js"]
 docker run -p 3000:80 09cee1f75310aab7bf58ad883454
 ```
 
----
+### Docker images are readonly
 
-## Command Reference
+- Once you run a docker build the created image is readonly.
+- If you make changes to the code then you have to rebuilt the images again else the changes will not reflect.
+- Every time you rebuild a new image will be created.
 
-- `docker images` : to see images that are available locally
-- `docker run <<image-name>>` : To run an image, converts an image in to a container, docker run will also download an image if it is not found locally.
+### Image Layers
 
-- `docker run -ti ubuntu:latest bash`
+- Every line in the `Dockerfile` is considered as a layer.
+- When there is a change in the code the lines which will cause updated result will be run,
+- More specifically all the changes that are after the first line which causes an updated result will be run.
+  **Example**
 
-  - '-ti' stands for terminal interactive useful while running in terminal
-  - 'ubuntu:latest' says to run the latest version of ubuntu.
-  - 'bash' means open bash terminal after starting ubuntu.
+```docker
+FROM node
+WORKDIR /app
+COPY . /app
+RUN npm install
+EXPOSE 80
+CMD ["node", "server.js"]
+```
 
-- `docker ps` : used to see running images locally.
-- `docker ps -a` to see all the images stopped, available and running
-- `docker ps -l` to see the last exited container.
-- `docker commit <<container-id>>` or `docker commit <<container-name>>` will create an images hash which is nothing but a new image created from your container with files in it.
-- ` docker tag <<hash-generated-from-docker-commit>> <<new-container-name>>` will assign the name provided as container name for the hash provided.
-- `docker commit <<container-id>> <<new-container-name>>` to generate a new image from an exiting stopped container with name assigned to it.
-- `docker run -p 3000:80 abcdefgh` to run docker image `abcdefgh` on local port 3000 where container port 80 is exposed.
-- `docker stop <<image-name>>` to stop a docker container.
+When a code change is made while considering the above file, `COPY . /app` line will cause an updated result.
+So every line under it will be executed on building the image.
+We can fine tune it as:
+
+```docker
+FROM node
+WORKDIR /app
+COPY package.json /app
+RUN npm install
+COPY . /app
+EXPOSE 80
+CMD ["node", "server.js"]
+```
+
+So every time when there is a code change and an image is build only from the line `COPY . /app`.
+
+> To know more about any docker commands add `--help` at the end of the command.
+
+**Stopping and Restarting containers**
+- To restart an exited container use ``` docker start <<container name>> ```
+- Run docker ps -a to get the list of containers and their names.
+- When we restart a container we will not get the logs terminal back.
+
