@@ -349,3 +349,13 @@ Error: No such object: image
 ` docker build -t goalapp:latest .`
 
 - we need to use the name and tag combination.
+
+**Advantages of Sharing Images:**
+
+- Easy to share the environment for installation.
+- No need to install or uninstall dependencies.
+- To have exact environment for dev and production.
+- Same machine can have multiple versions of same software like python or node.
+- Effective usage of resources.
+
+> To share environment, we can share docker file or share the built image directly.
