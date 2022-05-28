@@ -14,6 +14,7 @@
     - [Image Layers](#image-layers)
     - [Running Containers in detached or attached mode](#running-containers-in-detached-or-attached-mode)
     - [Interactive terminal](#interactive-terminal)
+    - [Removing containers and images](#removing-containers-and-images)
 
 # docker-alpha
 
@@ -201,6 +202,7 @@ This is attached mode.
 - To follow logs use the -f switch `docker logs -f <<name_of_running_container>>`
 
 ### Interactive terminal
+
 - To run in attached mode might not be sufficient when you want to pass some info via command line.
 - So we use interactive mode `-i` is used as `docker run -i <<image_name>>`
 - Generally we attach a terminal also to this as below
@@ -208,3 +210,17 @@ This is attached mode.
   - `docker run -ti <<image_hash>>`
 - To use the same for starting a container we have to use `docker start -ai <<container_name>>`
 
+### Removing containers and images
+
+- Use `rm` switch to remove container `docker rm <<container_name>>`
+- We cannot remove a running container.
+- We can remove multiple containers by passing their names as a command line arguments with space
+
+```dos
+docker rm <<container_001>> <<container_002>>
+```
+
+- `docker container prune` will remove all stopped containers.
+- `docker images` will give list of all images
+- `docker rmi <<image_hash>>` to remove a specific image.
+- `docker image prune` will remove all the images for which there is no container present (running or stopped).

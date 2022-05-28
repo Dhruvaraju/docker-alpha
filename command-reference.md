@@ -22,3 +22,8 @@
 - `docker attach <<name_of_running_container>>` will bring up interactive terminal for the container.
 - `docker logs <<name_of_running_container>>` will bring up the logs of a container.
 - To follow logs use the -f switch `docker logs -f <<name_of_running_container>>`
+- Use `rm` switch to remove container `docker rm <<container_name>>`
+- `docker container prune` will remove all stopped containers.
+- `docker images` will give list of all images
+- `docker rmi <<image_hash>>` to remove a specific image.
+- `docker image prune` will remove all the images for which there is no container present (running or stopped).
