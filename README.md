@@ -224,3 +224,110 @@ docker rm <<container_001>> <<container_002>>
 - `docker images` will give list of all images
 - `docker rmi <<image_hash>>` to remove a specific image.
 - `docker image prune` will remove all the images for which there is no container present (running or stopped).
+
+> Removing stopped containers automatically can be done by using the `--rm` switch
+> `docker run -p 8000:80 --rm andhagysdhsa`
+
+- To inspect and identify additional details about an image use `docker inspect image <<image_id>>`
+- An example output will be like this
+
+```
+[
+    {
+        "Id": "sha256:4208f648b801dee96f0ee0434180273601dc60f1266dd1404e8b5075695be014",
+        "RepoTags": [],
+        "RepoDigests": [],
+        "Parent": "",
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2022-05-28T09:11:52.4167184Z",
+        "Container": "",
+        "ContainerConfig": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": null,
+            "Cmd": null,
+            "Image": "",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": null
+        },
+        "DockerVersion": "",
+        "Author": "",
+        "Config": {
+            "Hostname": "",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "80/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "NODE_VERSION=18.2.0",
+                "YARN_VERSION=1.22.19"
+            ],
+            "Cmd": [
+                "node",
+                "server.js"
+            ],
+            "ArgsEscaped": true,
+            "Image": "",
+            "Volumes": null,
+            "WorkingDir": "/app",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": null
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 1001705909,
+        "VirtualSize": 1001705909,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/j51ghtpdqk2z8b2xtcmlqr1dd/diff:/var/lib/docker/overlay2/z760dwglkpbbj86xdbdexr333/diff:/var/lib/docker/overlay2/8011d33937aa2bd64597c20dee75121f9f73dad13815ce6bdb21da6a2c523aea/diff:/var/lib/docker/overlay2/8dfd99e8e043af08d23f5c5d1043e6f6f3fb86cf534d3f9b1fcebdaca0096156/diff:/var/lib/docker/overlay2/5345a20ead648d33b60c665b7431d22bce5857681ac2de248908bdb97b7d18d7/diff:/var/lib/docker/overlay2/501793094e8cfb0cadae13060143d23132410ccee26aa578f98622b06ab99462/diff:/var/lib/docker/overlay2/67cd528a1cd99258b45fbdfa9b220b83ffa3e458e0215389cb46929755fd2219/diff:/var/lib/docker/overlay2/a378924b426cefeff919a0a94b33e783798c234e36802292b5153a11a497ccdf/diff:/var/lib/docker/overlay2/18942caa53c84169a20e97b77039324372b293a532509f080fb1bf13f14e5ba4/diff:/var/lib/docker/overlay2/40345eaa3e31f477e796160cbf542681dad7be69b2f39208362b920c5a123626/diff:/var/lib/docker/overlay2/bcfb10db7d11649506585b65209b6caea4658703188960afe2b04f8a402a6f15/diff",
+                "MergedDir": "/var/lib/docker/overlay2/a6ieu3sn7389a7gp2cfdbqy0b/merged",
+                "UpperDir": "/var/lib/docker/overlay2/a6ieu3sn7389a7gp2cfdbqy0b/diff",
+                "WorkDir": "/var/lib/docker/overlay2/a6ieu3sn7389a7gp2cfdbqy0b/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:e7597c345c2eb11bce09b055d7c167c526077d7c65f69a7f3c6150ffe3f557ea",
+                "sha256:7dbadf2b9bd82a7447533776d0c8de6687cfcf241d3aa993ed8a86ad1347c6e0",
+                "sha256:9177197c67d08b25357b0b5ba8f7b944f321970dddbbe93b36cb726e9bdfd678",
+                "sha256:ee509ed6e976cdad5adda963902f78e442ea5fc05f955bd2c2c9026789f84b42",
+                "sha256:2fbabeba902e7f7c521f478f855b738d91bd4f2435de223a89fa5f4b2369065a",
+                "sha256:9e8a8e4e0b9201a5bf839068744a6ffb1e8f66c26600e5c733a6dead057aa36c",
+                "sha256:00a6e2ec123c791ab91d4633df70ac42df7a62aee1c8f1646dbcb308c7bd3d07",
+                "sha256:5cd94bddda4ddea4a07cd197ccaed3d758ab9a96f406529a237bd8b7a84a92fb",
+                "sha256:9822b42ab2ee535ba505c15eeb5e93a06c8b99bc0c99bfb7bc2d99d51ca49fbb",
+                "sha256:6a534ce25f8bd94c2f358261fd108a76717d72dd39f9d2d24df00e23f4f5208e",
+                "sha256:b039435553edc7f6edd30870021a7fe71d9e96ad75ddff8e92ce0f21043fc26d",
+                "sha256:d93c17da8b7b985731552b2eb357dcce5fe305f055a1ae842d8655573bd39db5"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]
+Error: No such object: image
+```
