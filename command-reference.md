@@ -17,3 +17,8 @@
 - `docker commit <<container-id>> <<new-container-name>>` to generate a new image from an exiting stopped container with name assigned to it.
 - `docker run -p 3000:80 abcdefgh` to run docker image `abcdefgh` on local port 3000 where container port 80 is exposed.
 - `docker stop <<image-name>>` to stop a docker container.
+- `docker run -d <<Image hash>>` to start a container in detached mode.
+- `docker start -a <<container name>>` will start a container in attached mode.
+- `docker attach <<name_of_running_container>>` will bring up interactive terminal for the container.
+- `docker logs <<name_of_running_container>>` will bring up the logs of a container.
+- To follow logs use the -f switch `docker logs -f <<name_of_running_container>>`

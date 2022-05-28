@@ -12,6 +12,8 @@
     - [Defining docker image through docker file](#defining-docker-image-through-docker-file)
     - [Docker images are readonly](#docker-images-are-readonly)
     - [Image Layers](#image-layers)
+    - [Running Containers in detached or attached mode](#running-containers-in-detached-or-attached-mode)
+    - [Interactive terminal](#interactive-terminal)
 
 # docker-alpha
 
@@ -180,7 +182,29 @@ So every time when there is a code change and an image is build only from the li
 > To know more about any docker commands add `--help` at the end of the command.
 
 **Stopping and Restarting containers**
-- To restart an exited container use ``` docker start <<container name>> ```
+
+- To restart an exited container use `docker start <<container name>>`
 - Run docker ps -a to get the list of containers and their names.
 - When we restart a container we will not get the logs terminal back.
+
+### Running Containers in detached or attached mode
+
+**Attached Mode:** When a container is initially started with `docker run` command, we will be able to follow the logs after the container starts.
+This is attached mode.
+
+**Detached Mode:** While starting a container using `docker start` command, we will not be able to follow any logs, this is called detached mode.
+
+- `docker run -d <<Image hash>>` to start a container in detached mode.
+- `docker start -a <<container name>>` will start a container in attached mode.
+- `docker attach <<name_of_running_container>>` will bring up terminal for the container.
+- `docker logs <<name_of_running_container>>` will bring up the logs of a container.
+- To follow logs use the -f switch `docker logs -f <<name_of_running_container>>`
+
+### Interactive terminal
+- To run in attached mode might not be sufficient when you want to pass some info via command line.
+- So we use interactive mode `-i` is used as `docker run -i <<image_name>>`
+- Generally we attach a terminal also to this as below
+  - `docker run -t -i <<image_hash>>`
+  - `docker run -ti <<image_hash>>`
+- To use the same for starting a container we have to use `docker start -ai <<container_name>>`
 
