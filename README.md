@@ -15,6 +15,8 @@
     - [Running Containers in detached or attached mode](#running-containers-in-detached-or-attached-mode)
     - [Interactive terminal](#interactive-terminal)
     - [Removing containers and images](#removing-containers-and-images)
+    - [Copying files in and out of a containers](#copying-files-in-and-out-of-a-containers)
+    - [Naming a container and images](#naming-a-container-and-images)
 
 # docker-alpha
 
@@ -224,6 +226,7 @@ docker rm <<container_001>> <<container_002>>
 - `docker images` will give list of all images
 - `docker rmi <<image_hash>>` to remove a specific image.
 - `docker image prune` will remove all the images for which there is no container present (running or stopped).
+- `docker image prune -a` to remove all the name tagged containers.
 
 > Removing stopped containers automatically can be done by using the `--rm` switch
 > `docker run -p 8000:80 --rm andhagysdhsa`
@@ -331,3 +334,18 @@ docker rm <<container_001>> <<container_002>>
 ]
 Error: No such object: image
 ```
+
+### Copying files in and out of a containers
+
+- To copy contents from local location to a running container and vice versa use the `cp` switch
+- `docker cp test/abc.txt <<container_name>>:folder_name/` to move file from local to container
+
+### Naming a container and images
+
+- To name a container use `--name` switch while using docker run command
+  ` docker run -p 8000:80 --name goalapp 4208f648b801`
+- To name a image we need to add the name while building the image.
+
+` docker build -t goalapp:latest .`
+
+- we need to use the name and tag combination.

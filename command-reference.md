@@ -27,3 +27,6 @@
 - `docker images` will give list of all images
 - `docker rmi <<image_hash>>` to remove a specific image.
 - `docker image prune` will remove all the images for which there is no container present (running or stopped).
+- `docker cp test/abc.txt <<container_name>>:folder_name/` to move file from local to container
+- To name a container use `--name` switch while using docker run command ` docker run -p 8000:80 --name goalapp 4208f648b801`
+- To name a image we need to add the name while building the image. ` docker build -t goalapp:latest .`
