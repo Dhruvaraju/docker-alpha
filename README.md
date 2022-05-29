@@ -55,7 +55,7 @@ Container images become containers at runtime and in the case of Docker containe
 ## What docker does
 
 - Carves up a computer into sealed container that runs a code
-- Gets the code to adn fro from a computer.
+- Gets the code to and fro from a computer.
 - Docker builds containers.
 - Docker has a social platform to find and share containers which are different from virtual machines.
 
@@ -229,7 +229,7 @@ docker rm <<container_001>> <<container_002>>
 - `docker image prune -a` to remove all the name tagged containers.
 
 > Removing stopped containers automatically can be done by using the `--rm` switch
-> `docker run -p 8000:80 --rm andhagysdhsa`
+> `docker run -p 8000:80 --rm <<image_hash>>`
 
 - To inspect and identify additional details about an image use `docker inspect image <<image_id>>`
 - An example output will be like this
