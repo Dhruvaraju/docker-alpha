@@ -1,14 +1,14 @@
 ## Table of contents
 
 - [docker-alpha](#docker-alpha)
-  - [What is docker?](#what-is-docker)
-  - [What is a container?](#what-is-a-container)
+    - [What is docker?](#what-is-docker)
+    - [What is a container?](#what-is-a-container)
     - [Docker containers that run on Docker Engine:](#docker-containers-that-run-on-docker-engine)
-  - [What docker does](#what-docker-does)
-  - [Installing docker on a windows machine](#installing-docker-on-a-windows-machine)
-  - [Docker images to containers](#docker-images-to-containers)
-- [containers to images](#containers-to-images)
-  - [basic docker life-cycle](#basic-docker-life-cycle)
+    - [What docker does](#what-docker-does)
+    - [Installing docker on a windows machine](#installing-docker-on-a-windows-machine)
+    - [Docker images to containers](#docker-images-to-containers)
+  - [containers to images](#containers-to-images)
+    - [basic docker life-cycle](#basic-docker-life-cycle)
     - [Defining docker image through docker file](#defining-docker-image-through-docker-file)
     - [Docker images are readonly](#docker-images-are-readonly)
     - [Image Layers](#image-layers)
@@ -19,20 +19,21 @@
     - [Naming a container and images](#naming-a-container-and-images)
     - [Pushing images to docker-hub](#pushing-images-to-docker-hub)
     - [Pulling images from docker-hub](#pulling-images-from-docker-hub)
+  - [Managing Data and working with Volumes](#managing-data-and-working-with-volumes)
+    - [Types of data](#types-of-data)
 
 # docker-alpha
 
 learning log for docker
-[command reference](#command-reference)
 
-## What is docker?
+### What is docker?
 
 - Docker is a container management tool.
 - Enables users to create, deploy and run applications using containers.
 
 > Containers allow a developer to package up an application with all of the parts it needs, such as libraries and other dependencies, and deploy it as one package. By doing so, thanks to the container, the developer can rest assured that the application will run on any other Linux machine regardless of any customized settings that machine might have that could differ from the machine used for writing and testing the code.
 
-## What is a container?
+### What is a container?
 
 - A standardized unit of software.
 
@@ -54,14 +55,14 @@ Container images become containers at runtime and in the case of Docker containe
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Containers are an abstraction at the app layer that packages code and dependencies together. Multiple containers can run on the same machine and share the OS kernel with other containers, each running as isolated processes in user space. Containers take up less space than VMs (container images are typically tens of MBs in size), can handle more applications and require fewer VMs and Operating systems. | Virtual machines (VMs) are an abstraction of physical hardware turning one server into many servers. The hypervisor allows multiple VMs to run on a single machine. Each VM includes a full copy of an operating system, the application, necessary binaries and libraries - taking up tens of GBs. VMs can also be slow to boot. |
 
-## What docker does
+### What docker does
 
 - Carves up a computer into sealed container that runs a code
 - Gets the code to and fro from a computer.
 - Docker builds containers.
 - Docker has a social platform to find and share containers which are different from virtual machines.
 
-## Installing docker on a windows machine
+### Installing docker on a windows machine
 
 - Search for docker desktop and install it from exe
 - We need a docker id to download docker desktop so create one.
@@ -70,7 +71,7 @@ Container images become containers at runtime and in the case of Docker containe
 - To run a container locally use command `docker run container-name` like `docker run hello-world`
 - This will check if we have docker image locally if not it wil pull from docker hub and then run in.
 
-## Docker images to containers
+### Docker images to containers
 
 - Necessary parts of an os required to run your app is called an images
 - To list the docker images run `docker images`, It will list images as shown below.
@@ -103,7 +104,7 @@ hello-world         latest              bf756fb1ae65        8 months ago        
 - `docker ps -a` to see all the images stopped, available and running
 - `docker ps -l` to see the last exited container.
 
-# containers to images
+## containers to images
 
 - If we had a container in which we created a file. or some app and we need to use it as a base image, we cna create images from containers.
 - `docker commit <<container-id>>` or `docker commit <<container-name>>` will create an images hash which is nothing but a new image created from your container with files in it.
@@ -111,7 +112,7 @@ hello-world         latest              bf756fb1ae65        8 months ago        
 
 - we can also use `docker commit <<container-id>> <<new-container-name>>` to generate a new image from an exiting stopped container.
 
-## basic docker life-cycle
+### basic docker life-cycle
 
 ![docker life cycle](images/docker-lifecycle.svg)
 
@@ -390,3 +391,18 @@ Error: No such object: image
 - Run command will not fetch the latest changes after the first time.
   - It will only run the available version locally.
 - Docker pull will get the most recent version all the time.
+
+## Managing Data and working with Volumes
+
+### Types of data
+
+- **Application** Code and environment hence stored in images. Generally Read-only data.
+- **Temporary App Data** User input provided during runtime. Generally read and write data.
+  - Not required once container is stopped.
+  - Hence stored in container.
+- **Permanent data** App data like profile of user, log in information. Read and write data.
+  - Should be available even after closing container.
+  - Data that should be stored in database.
+  - Usually stored in containers and volumes.
+
+
