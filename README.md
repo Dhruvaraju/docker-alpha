@@ -18,6 +18,7 @@
     - [Copying files in and out of a containers](#copying-files-in-and-out-of-a-containers)
     - [Naming a container and images](#naming-a-container-and-images)
     - [Pushing images to docker-hub](#pushing-images-to-docker-hub)
+    - [Pulling images from docker-hub](#pulling-images-from-docker-hub)
 
 # docker-alpha
 
@@ -381,3 +382,11 @@ Error: No such object: image
 - `docker push <<image_name>>` is used to push an image to docker hub.
 - we can also push with tag names `docker push <<username/image-name:tag>>`
 - If we do not provide a tag name, it will add latest tag by default.
+
+### Pulling images from docker-hub
+
+- `docker pull <<image_name>>` is used to pull image from docker hub.
+- `docker run <<image_name>>` will check if the image is available locally if not it will pull it from docker hub.
+- Run command will not fetch the latest changes after the first time.
+  - It will only run the available version locally.
+- Docker pull will get the most recent version all the time.
