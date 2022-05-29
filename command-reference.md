@@ -30,3 +30,9 @@
 - `docker cp test/abc.txt <<container_name>>:folder_name/` to move file from local to container
 - To name a container use `--name` switch while using docker run command ` docker run -p 8000:80 --name goalapp 4208f648b801`
 - To name a image we need to add the name while building the image. ` docker build -t goalapp:latest .`
+- `docker tag <<ols_image_name>> <<new_image_name>>`
+- Using the tag command will create a new image and keep the old image as it is.
+- Now in terminal use `docker login`. Provide username and password.
+- Log in is required only once.
+- `docker logout` is used to logout from a terminal.
+- `docker push <<image_name>>` is used to push an image to docker hub.

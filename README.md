@@ -17,6 +17,7 @@
     - [Removing containers and images](#removing-containers-and-images)
     - [Copying files in and out of a containers](#copying-files-in-and-out-of-a-containers)
     - [Naming a container and images](#naming-a-container-and-images)
+    - [Pushing images to docker-hub](#pushing-images-to-docker-hub)
 
 # docker-alpha
 
@@ -343,10 +344,14 @@ Error: No such object: image
 ### Naming a container and images
 
 - To name a container use `--name` switch while using docker run command
-  ` docker run -p 8000:80 --name goalapp 4208f648b801`
+  ```dos
+  docker run -p 8000:80 --name goalapp 4208f648b801
+  ```
 - To name a image we need to add the name while building the image.
 
-` docker build -t goalapp:latest .`
+```dos
+ docker build -t goalapp:latest .
+```
 
 - we need to use the name and tag combination.
 
@@ -359,3 +364,20 @@ Error: No such object: image
 - Effective usage of resources.
 
 > To share environment, we can share docker file or share the built image directly.
+
+### Pushing images to docker-hub
+
+- Create an account in docker hub
+- Create a repository, name the repository.
+- Now we can push our local images to repository.
+- Rename the image which you want to push as `docker-hub-username/repository`
+- We can rename images in 2 ways
+  - build again with `-t` and use the name as mentioned.
+  - `docker tag <<ols_image_name>> <<new_image_name>>`
+- Using the tag command will create a new image and keep the old image as it is.
+- Now in terminal use `docker login`. Provide username and password.
+- Log in is required only once.
+- `docker logout` is used to logout from a terminal.
+- `docker push <<image_name>>` is used to push an image to docker hub.
+- we can also push with tag names `docker push <<username/image-name:tag>>`
+- If we do not provide a tag name, it will add latest tag by default.
