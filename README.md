@@ -21,6 +21,8 @@
     - [Pulling images from docker-hub](#pulling-images-from-docker-hub)
   - [Managing Data and working with Volumes](#managing-data-and-working-with-volumes)
     - [Types of data](#types-of-data)
+    - [Volumes](#volumes)
+    - [How to add a volume to a container](#how-to-add-a-volume-to-a-container)
 
 # docker-alpha
 
@@ -405,4 +407,14 @@ Error: No such object: image
   - Data that should be stored in database.
   - Usually stored in containers and volumes.
 
+### Volumes
 
+- Volumes are folders on host machine which will mounted(made available or mapped) into containers.
+- Volumes persists even after container is shut down.
+- When a container is restarted, if a volume is mounted, container will have access to the data in volume.
+- Container have read-write access to the volume.
+
+### How to add a volume to a container
+
+#TODO use `VOLUME ["path that need to be saved"]` in Dockerfile
+#TODO named volumes and unnamed volumes
