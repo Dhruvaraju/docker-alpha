@@ -23,6 +23,7 @@
     - [Types of data](#types-of-data)
     - [Volumes](#volumes)
     - [How to add a volume to a container](#how-to-add-a-volume-to-a-container)
+    - [Named volumes](#named-volumes)
 
 # docker-alpha
 
@@ -416,5 +417,54 @@ Error: No such object: image
 
 ### How to add a volume to a container
 
-#TODO use `VOLUME ["path that need to be saved"]` in Dockerfile
-#TODO named volumes and unnamed volumes
+- Add `VOLUME` array in the Dockerfile
+- the `VOLUME` array takes the folders in the container, which need to be made as volumes
+
+**example dockerfile**
+
+```
+FROM node:14
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 80
+
+VOLUME [ "/app/feedback" ]
+
+CMD [ "node", "server.js" ]
+```
+
+- In the above docker file "/app/feedback" folder will be mapped to a folder in host machine.
+- We will not know which folder in host machine, as it is mapped by docker.
+- Even after adding a volume section the files might not be persistance, because every time we start the container a new volume will be created.
+- To avoid the above issue we used named volumes.
+- Volume mentioned in the dockerfile is called as anonymous volume. This will be detached from the container once stops.
+- These are also called as unnamed volumes.
+- We saw, that anonymous volumes are removed automatically, when a container is removed.
+- This happens when you start / run a container with the --rm option.
+- Command to see all volumes is `docker volume ls`
+- To remove a volume use command `docker volume rm <<volume_name>>` or `docker volume prune`
+
+If you start a container without that option, the anonymous volume would NOT be removed, even if you remove the container (with docker rm ...).
+Still, if you then re-create and re-run the container (i.e. you run docker run ... again), a new anonymous volume will be created. So even though the anonymous volume wasn't removed automatically, it'll also not be helpful because a different anonymous volume is attached the next time the container starts (i.e. you removed the old container and run a new one).
+Now you just start piling up a bunch of unused anonymous volumes - you can clear them via docker volume rm VOL_NAME or docker volume prune.
+
+### Named volumes
+
+- A volume with a name assigned to it is a named volume.
+- We will not add this in docker file
+- A named docker volume can be created with command `docker run -v <<volumename>>:<<folder_path_in_container>> <<image_name>>`
+
+```docker
+docker run -p 8000:80 --name example-docker --rm -v volume_example:/app/feedback node-app:latest
+# a volume will be created with name volume_example
+docker run -p 3000:80 --rm --name volume-eg -v feedback:/app/feedback node-app # feedback is volume name
+```
+
+- A named volume can be attached to other containers also
