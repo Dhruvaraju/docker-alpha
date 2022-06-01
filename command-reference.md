@@ -36,3 +36,6 @@
 - Log in is required only once.
 - `docker logout` is used to logout from a terminal.
 - `docker push <<image_name>>` is used to push an image to docker hub.
+- Command to see all volumes is `docker volume ls`
+- To remove a volume use command `docker volume rm <<volume_name>>` or `docker volume prune`
+- A named docker volume can be created with command `docker run -v <<volumename>>:<<folder_path_in_container>> <<image_name>>`
