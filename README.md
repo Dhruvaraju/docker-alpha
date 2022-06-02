@@ -24,6 +24,7 @@
     - [Volumes](#volumes)
     - [How to add a volume to a container](#how-to-add-a-volume-to-a-container)
     - [Named volumes](#named-volumes)
+    - [Bind mount](#bind-mount)
 
 # docker-alpha
 
@@ -459,7 +460,7 @@ Now you just start piling up a bunch of unused anonymous volumes - you can clear
 
 - A volume with a name assigned to it is a named volume.
 - We will not add this in docker file
-- A named docker volume can be created with command `docker run -v <<volumename>>:<<folder_path_in_container>> <<image_name>>`
+- A named docker volume can be created with command `docker run -v <<volume_name>>:<<folder_path_in_container>> <<image_name>>`
 
 ```docker
 docker run -p 8000:80 --name example-docker --rm -v volume_example:/app/feedback node-app:latest
@@ -468,3 +469,21 @@ docker run -p 3000:80 --rm --name volume-eg -v feedback:/app/feedback node-app #
 ```
 
 - A named volume can be attached to other containers also
+
+### Bind mount
+
+- Volumes can persist data but the folder to which they will be mapped cannot be managed by developers.
+- Bind mounts allow user to choose which folder the mapping need to be done on host system.
+- This is more suitable for persistent editable data, like source code.
+- A named Volume will help with persistent data but not for editing because we do not know which path the folder is saved to.
+- Bind mount is not specific to image, it is specific to container.
+- We cannot add a bind mount using Dockerfile.
+
+Adding bind mount
+
+```
+docker run -p 8000:80 --name <<container_name>> -v feedback:/app/feedback -v <<absolute-path-host-system-path>>:<<path-on-container>> <<image_name>>
+
+# Example
+docker run -p 8000:80 --name eg-app -v feedback:/app/feedback -v "D:\devworks\docker\docker-alpha\":/app node-image
+```
