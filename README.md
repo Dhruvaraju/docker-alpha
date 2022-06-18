@@ -488,6 +488,8 @@ docker run -p 8000:80 --name <<container_name>> -v feedback:/app/feedback -v <<a
 docker run -p 8000:80 --name eg-app -v feedback:/app/feedback -v "D:\devworks\docker\docker-alpha\":/app node-image
 ```
 
+While using folder names if the folder name has any spaces place it in between double quotes.
+
 > If you don't always want to copy and use the full path, you can use these shortcuts:
 
 macOS / Linux: -v $(pwd):/app
