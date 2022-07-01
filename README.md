@@ -497,3 +497,4 @@ macOS / Linux: -v $(pwd):/app
 Windows: -v "%cd%":/app
 
 > I a linux or mac machine while using bind mounts make sure the parent folder is checked under resources file sharing.
+ #Todo docker-compose
