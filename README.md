@@ -25,6 +25,7 @@
     - [How to add a volume to a container](#how-to-add-a-volume-to-a-container)
     - [Named volumes](#named-volumes)
     - [Bind mount](#bind-mount)
+    - [Merging multiple volumes](#merging-multiple-volumes)
 
 # docker-alpha
 
@@ -497,4 +498,25 @@ macOS / Linux: -v $(pwd):/app
 Windows: -v "%cd%":/app
 
 > I a linux or mac machine while using bind mounts make sure the parent folder is checked under resources file sharing.
- #Todo docker-compose
+
+### Merging multiple volumes
+
+Consider a node app, in the docker file we have done a `npm install`, then copied the code to code in your current working directory to the `/app` location in container.
+
+While starting the application you have added a named volume and bind mount to `/app` folder to the current working directory like below.
+
+```commandline
+docker run -p 8000:80 --rm -d --name feedback-app -v feedback:/app/feedback -v "C:/user/node-app":/app feedback:volume
+```
+
+The app might not start because the node modules folder will be overwritten by contents of `C:/user/node-app`. Because docker executes commands in docker file then it will overwrite them with the volumes.
+
+To avoid the above problem we can make use of an unnamed volume like below:
+
+```commandline
+docker run -p 8000:80 --rm -d --name feedback-app -v feedback:/app/feedback -v "C:/user/node-app":/app -v /app/nodemodules feedback:volume
+```
+
+now node-modules folder will not be deleted. Which ever volume will have a deep routed folder path that path will be finally kept or persists.
+
+This is how multiple modules can be merged.
