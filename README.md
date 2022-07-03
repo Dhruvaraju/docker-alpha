@@ -28,6 +28,7 @@
     - [Merging multiple volumes](#merging-multiple-volumes)
     - [Windows, WSL 2 & Bind Mounts](#windows-wsl-2--bind-mounts)
       - [There are three main workarounds & solutions:](#there-are-three-main-workarounds--solutions)
+    - [Making volumes readonly](#making-volumes-readonly)
 
 # docker-alpha
 
@@ -588,3 +589,24 @@ cd docker-practice
 Now when it comes to working with these folders (e.g. to create your Dockerfile and your
 project files in there), the following article can be a great next step: https://www.docker.c
 om/blog/docker-desktop-wsl-2-best-practices/.
+
+### Making volumes readonly
+
+- Volumes are by default read and write.
+- We can restrict it to be read only by adding `:ro` at the end of declaring a bind mount
+
+```commandline
+# Example bind mount
+-v C:/temp:/app
+# this can be made read only by
+-v C:/temp:/app:ro
+```
+
+- In the above example entire app folder is made as readonly
+- we can make sub folders to read write by mentioning them as another anonymous volumes.
+
+```
+-v C:/temp:/app:ro -v /app/temp
+```
+
+- Now the `/app/temp` folder becomes read & write as it has a much deeper folder specified.
