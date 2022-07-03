@@ -830,5 +830,5 @@ The curl commands which are mentioned under based on ip should work.
 
 ### How do docker parse ip addresses
 
-Docker do not replace the container name in source code, once the call is made docker it will pass through docker environment.
-It will replace the domain name with address then. So docker will not touch the source code of the app.
+Docker do not replace the container name in source code, once a call is made from app in a container it will pass through docker environment.
+Then docker will replace the container name provided in the domain name with ip address. So docker will not touch the source code of the app.
