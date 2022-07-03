@@ -39,3 +39,5 @@
 - Command to see all volumes is `docker volume ls`
 - To remove a volume use command `docker volume rm <<volume_name>>` or `docker volume prune`
 - A named docker volume can be created with command `docker run -v <<volumename>>:<<folder_path_in_container>> <<image_name>>`
+- To make a volume readonly use `ro` like `docker run -v C:/temp:/app:ro <<image_name>>`
+- `docker volume prune` to delete all volumes which are not in use.

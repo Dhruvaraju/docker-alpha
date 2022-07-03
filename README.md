@@ -29,6 +29,8 @@
     - [Windows, WSL 2 & Bind Mounts](#windows-wsl-2--bind-mounts)
       - [There are three main workarounds & solutions:](#there-are-three-main-workarounds--solutions)
     - [Making volumes readonly](#making-volumes-readonly)
+      - [Managing docker volumes](#managing-docker-volumes)
+    - [COPY vs Bind Mounts](#copy-vs-bind-mounts)
 
 # docker-alpha
 
@@ -597,16 +599,46 @@ om/blog/docker-desktop-wsl-2-best-practices/.
 
 ```commandline
 # Example bind mount
--v C:/temp:/app
+docker run -v C:/temp:/app <<image_name>>
 # this can be made read only by
--v C:/temp:/app:ro
+docker run -v C:/temp:/app:ro <<image_name>>
 ```
 
 - In the above example entire app folder is made as readonly
 - we can make sub folders to read write by mentioning them as another anonymous volumes.
 
 ```
--v C:/temp:/app:ro -v /app/temp
+docker run -v C:/temp:/app:ro -v /app/temp <<image_name>>
 ```
 
 - Now the `/app/temp` folder becomes read & write as it has a much deeper folder specified.
+
+#### Managing docker volumes
+
+- We can create a docker volume by using `docker volume create <<name>>`
+- We can inspect a volume by using `docker volume inspect <<volume name>>`
+- Individual volume can be removed by using `rm` flag.
+- For removing multiple volumes use `prune` flag as `docker volume prune`
+
+example info from a volume inspect:
+
+```json
+[
+  {
+    "CreatedAt": "2022-07-02T13:55:24Z",
+    "Driver": "local",
+    "Labels": null,
+    "Mountpoint": "/var/lib/docker/volumes/feedback/_data",
+    "Name": "feedback",
+    "Options": null,
+    "Scope": "local"
+  }
+]
+```
+
+### COPY vs Bind Mounts
+
+- Bind Mounts are good for development environment as we do not want to changes things in production.
+- Avoid using bind mounts in production.
+- In a dev environment we don't have to use `COPY . .` in docker file if you are replacing entire code with bind mount.
+- It would be a better choice to leave it there in docker file.
