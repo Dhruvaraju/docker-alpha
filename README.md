@@ -31,6 +31,7 @@
     - [Making volumes readonly](#making-volumes-readonly)
       - [Managing docker volumes](#managing-docker-volumes)
     - [COPY vs Bind Mounts](#copy-vs-bind-mounts)
+    - [Docker ignore file](#docker-ignore-file)
 
 # docker-alpha
 
@@ -642,3 +643,15 @@ example info from a volume inspect:
 - Avoid using bind mounts in production.
 - In a dev environment we don't have to use `COPY . .` in docker file if you are replacing entire code with bind mount.
 - It would be a better choice to leave it there in docker file.
+
+### Docker ignore file
+
+- Just like git ignore file docker ignore file is also used to exclude files and folders from docker image.
+- `.dockerignore` will be the name of file with no extensions
+- Generally we will add unused files like `.git` folder, `Dockerfile` itself if we do not want to include it.
+
+```
+# dockerignore file
+  Dockerfile
+  .git
+```
