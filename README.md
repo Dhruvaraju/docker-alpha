@@ -34,6 +34,14 @@
     - [Docker ignore file](#docker-ignore-file)
     - [Environment Variables](#environment-variables)
     - [Build Args](#build-args)
+  - [Networking with containers](#networking-with-containers)
+    - [Container to internet communication](#container-to-internet-communication)
+    - [Container to host machine](#container-to-host-machine)
+    - [Container to container communication](#container-to-container-communication)
+    - [Based on Ip address:](#based-on-ip-address)
+    - [Based on Network](#based-on-network)
+    - [Docker Network Drivers](#docker-network-drivers)
+    - [How do docker parse ip addresses](#how-do-docker-parse-ip-addresses)
 
 # docker-alpha
 
@@ -720,3 +728,107 @@ CMD ["npm", "start"]
 ```
 
 - During image building we can use: `docker run --build-arg DEFAULT_PORT=8000 feedback-app:buildargs`
+
+## Networking with containers
+
+There are three types of network interactions with containers.
+
+- Container to internet, where a container is trying to connect some external api.
+- Container to host machine, Where app in the container is trying to connect to something on the host machine.
+- Container to container communication, where one container is trying to connect to another container.
+
+### Container to internet communication
+
+- Docker doesn't need any additional configuration or variable specification for internet communication.
+- An app hosted in docker container will be able to connect to internet out of the box.
+
+### Container to host machine
+
+- When we locally use some apps or services we access them by using `http://localhost` as domain.
+- To have communications with host machine we need to replace the domain name `localhost` with `host.docker.internal`.
+- So if we want to connect to `http://localhost:9090` it should be as `http://host.docker.internal:9090`.
+
+### Container to container communication
+
+- Consider an app `star-wars-node-app` which is a node application, which requires a mongodb installation as database.
+- We will create a container for node app and another container for mongodb
+- The official mongo docker image is `mongo`
+- We can run it in detached mode with name as mongodb using `docker run -d --name mongodb mongo`
+- In `app.js` node app is trying to connect to mongodb by using the following line `mongodb://localhost:27017/swfavorites`
+
+As mongodb is running on a different container, we can connect in 2 ways.
+
+### Based on Ip address:
+
+- Inspect the mongodb container with `docker inspect mongodb`
+- an ip address can be found under network settings, it will look something like `"IPAddress": "172.17.0.2"`
+- Place the ip address value in place of local host and build node app container and start it.
+- change `mongodb://localhost:27017/swfavorites` to `mongodb://172.17.0.2:27017/swfavorites`, it will work as expected.
+- Every time there is a change in ip address we need to update the image.
+- Start mongodb and node (on port 8000) containers then using following curl commands.
+
+**To save a favorite**
+
+```curl
+curl --location --request POST 'localhost:8000/favorites' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name":"emperor strikes back",
+    "type":"movie",
+    "url":"https://swapi.dev/api/films/2/"
+}'
+```
+
+**To get favorites**
+
+```curl
+curl --location --request GET 'localhost:8000/favorites'
+```
+
+The above requests should work without any issue.
+
+### Based on Network
+
+- We can place all the containers that need to connect to each other in a docker network.
+- We can create a docker network by using `docker network create <<network-name>>`
+- We don't have to give any additional info, it will create a network.
+- Now we can use the created network to add containers into it.
+- To add a container to network while starting a container use `--network` switch and provide the network name.
+
+> Note: We need to create network on our own, docker will not create it if we just give the `--network` switch during starting container.
+
+- Create a network with name `net-01` using `docker network create net-01`
+- Now add this to mongodb container by using command `docker run -d --name mongodb --network net-01 mongo`
+- Now other containers in same network can connect to a container services by using it's name as domain name.
+- So in the node app update `mongodb://172.17.0.2:27017/swfavorites` to `mongodb://mongodb:27017/swfavorites`.
+- Build a new image and start a container from it using `--network net-01` to add it to same container
+- Build the image with command `docker build -t starwars-nod:for-nt .`
+- Start node app with command `docker run -d --name starwars-nt --network net-01 -p 8000:3000 starwars-nod:for-nt`
+
+The curl commands which are mentioned under based on ip should work.
+
+### Docker Network Drivers
+
+- Docker Networks actually support different kinds of "Drivers" which influence the behavior of the Network.
+- The default driver is the "bridge" driver - it provides the behavior shown in this module (i.e. Containers can find each other by name if they are in the same Network).
+- The driver can be set when a Network is created, simply by adding the --driver option.
+
+```
+ docker network create --driver bridge my-net
+```
+
+> Of course, if you want to use the "bridge" driver, you can simply omit the entire option since "bridge" is the default anyways.
+
+- Docker also supports these alternative drivers - though you will use the "bridge" driver in most cases:
+  - **host:** For standalone containers, isolation between container and host system is removed (i.e. they share localhost as a network)
+  - **overlay:** Multiple Docker daemons (i.e. Docker running on different machines) are able to connect with each other. Only works in "Swarm" mode which is a dated / almost deprecated way of connecting multiple containers
+  - **macvlan:** You can set a custom MAC address to a container - this address can then be used for communication with that container
+  - **none:** All networking is disabled.
+  - **Third-party plugins:** You can install third-party plugins which then may add all kinds of behaviors and functionalities
+
+> As mentioned, the "bridge" driver makes most sense in the vast majority of scenarios.
+
+### How do docker parse ip addresses
+
+Docker do not replace the container name in source code, once the call is made docker it will pass through docker environment.
+It will replace the domain name with address then. So docker will not touch the source code of the app.

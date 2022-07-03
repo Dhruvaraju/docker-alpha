@@ -41,3 +41,5 @@
 - A named docker volume can be created with command `docker run -v <<volumename>>:<<folder_path_in_container>> <<image_name>>`
 - To make a volume readonly use `ro` like `docker run -v C:/temp:/app:ro <<image_name>>`
 - `docker volume prune` to delete all volumes which are not in use.
+- We can create a docker network by using `docker network create <<network-name>>`
+- To add a container to network  `docker run -d --name mongodb --network net-01 mongo`
