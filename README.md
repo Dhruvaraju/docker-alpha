@@ -32,6 +32,7 @@
       - [Managing docker volumes](#managing-docker-volumes)
     - [COPY vs Bind Mounts](#copy-vs-bind-mounts)
     - [Docker ignore file](#docker-ignore-file)
+    - [Environment Variables](#environment-variables)
 
 # docker-alpha
 
@@ -654,4 +655,46 @@ example info from a volume inspect:
 # dockerignore file
   Dockerfile
   .git
+```
+
+### Environment Variables
+
+- Used to set variables in docker file or through commandline while starting container.
+- Accessible in code.
+- In a Dockerfile use the following syntax `ENV <<PARAMETER_NAME>> <<VALUE>>`
+- example `ENV PORT 80`
+- Now this can be assigned to other section in docker file as `$PORT`
+
+Example Docker File:
+
+```dockerfile
+FROM node
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 80
+CMD ["npm", "start"]
+
+# The above we can add env vars as
+FROM node
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+ENV PORT 80
+EXPOSE $PORT
+CMD ["npm", "start"]
+# Port number will be set by default to 80
+```
+
+- If we want to change the env value we can do it while creating a container by using `--env` switch.
+- example: `docker run -p 8000:3000 --env PORT=3000 --env ENVIRONMENT=dev feedback-app`
+- In the above example port and environment are environment variables.
+- We can create a `.env` file and set all environment variables in it, then pass it as a parameter.
+- example: `docker run -p 8000:3000 --env-file ./.env feedback-app`
+
+```envfile
+PORT=8000
+ENVIRONMENT=dev
 ```
