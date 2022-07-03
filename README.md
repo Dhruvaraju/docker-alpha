@@ -33,6 +33,7 @@
     - [COPY vs Bind Mounts](#copy-vs-bind-mounts)
     - [Docker ignore file](#docker-ignore-file)
     - [Environment Variables](#environment-variables)
+    - [Build Args](#build-args)
 
 # docker-alpha
 
@@ -698,3 +699,24 @@ CMD ["npm", "start"]
 PORT=8000
 ENVIRONMENT=dev
 ```
+
+### Build Args
+
+- These are se inside a docker file not accessible in application or CMD section.
+- set on docker build using `--build-arg` or `ARG` section in dockerfile.
+
+Example docker file with build args:
+
+```dockerfile
+FROM node
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+ARG DEFAULT_PORT=80
+ENV PORT $DEFAULT_PORT
+EXPOSE $PORT
+CMD ["npm", "start"]
+```
+
+- During image building we can use: `docker run --build-arg DEFAULT_PORT=8000 feedback-app:buildargs`
