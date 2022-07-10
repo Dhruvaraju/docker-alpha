@@ -42,6 +42,7 @@
     - [Based on Network](#based-on-network)
     - [Docker Network Drivers](#docker-network-drivers)
     - [How do docker parse ip addresses](#how-do-docker-parse-ip-addresses)
+  - [Building Multi Container apps with docker](#building-multi-container-apps-with-docker)
 
 # docker-alpha
 
@@ -832,3 +833,28 @@ The curl commands which are mentioned under based on ip should work.
 
 Docker do not replace the container name in source code, once a call is made from app in a container it will pass through docker environment.
 Then docker will replace the container name provided in the domain name with ip address.
+
+## Building Multi Container apps with docker
+
+- Generally apps are build in multi containers.
+- We will consider an app with nodejs back-end, React frontend and mongodb as database.
+- The source code of the app available at `multi-container-app-05` folder.
+
+**Creating a mongodb container**
+
+- Use the official mongo image and run the following command" `docker run -d --rm --name mongodb -p 27017:27017 mongo`
+- Which will expose mongodb on port `27017`
+
+**Creating a backend container**
+
+- Add a Dockerfile to which can be used to build image.
+
+```dockerfile
+FROM node
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 80
+CMD ["node","app.js"]
+```
