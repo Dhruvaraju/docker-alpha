@@ -861,3 +861,5 @@ CMD ["node","app.js"]
 - build the docker image `docker build -t goals-backend . `
 - use `docker run -d --rm -p 80:80 --name goals-backend goals-backend` to start the container.
 - In instead of `localhost` use `host.docker.internal`.
+
+#docker-compose
