@@ -858,8 +858,25 @@ COPY . .
 EXPOSE 80
 CMD ["node","app.js"]
 ```
+
 - build the docker image `docker build -t goals-backend . `
 - use `docker run -d --rm -p 80:80 --name goals-backend goals-backend` to start the container.
 - In instead of `localhost` use `host.docker.internal` to get server address
 
-#docker-compose
+**Creating front-end container**
+
+- Create a docker file with the following content:
+
+```dockerfile
+FROM node
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm","start"]
+```
+
+- Build the app using `docker build -t goals-react .` in the front-end folder.
+- To start the app use `docker run --name goals-front-end -it -p 3000:3000 goals-react`
+- We have to run in terminal interactive mode else react app will stop working after it starts.
