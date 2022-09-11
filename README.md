@@ -43,6 +43,7 @@
     - [Docker Network Drivers](#docker-network-drivers)
     - [How do docker parse ip addresses](#how-do-docker-parse-ip-addresses)
   - [Building Multi Container apps with docker](#building-multi-container-apps-with-docker)
+  - [Adding networks to the apps](#adding-networks-to-the-apps)
 
 # docker-alpha
 
@@ -880,3 +881,11 @@ CMD ["npm","start"]
 - Build the app using `docker build -t goals-react .` in the front-end folder.
 - To start the app use `docker run --name goals-front-end -it -p 3000:3000 goals-react`
 - We have to run in terminal interactive mode else react app will stop working after it starts.
+
+## Adding networks to the apps
+
+- Create a new network using `docker network create goals-network`
+- To add a container to the network while starting a container use `--network goals-network`
+- Use the container name to connect to the container.
+- For the React app we still need to expose the node app's ports.
+- As the code for react will be built in the browser instead of the server with in the container.
