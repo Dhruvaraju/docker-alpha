@@ -45,6 +45,11 @@
   - [Building Multi Container apps with docker](#building-multi-container-apps-with-docker)
     - [Adding networks to the apps](#adding-networks-to-the-apps)
     - [Persisting data with volumes](#persisting-data-with-volumes)
+  - [Docker-compose](#docker-compose)
+    - [What is docker compose](#what-is-docker-compose)
+    - [What is not docker-compose](#what-is-not-docker-compose)
+    - [Creating a compose file](#creating-a-compose-file)
+    - [Installing docker-compose on a linux machine](#installing-docker-compose-on-a-linux-machine)
 
 # docker-alpha
 
@@ -911,3 +916,48 @@ docker run -d -p 27017:27017 --rm --name mongodb -e MONGO_INITDB_ROOT_USERNAME=a
 - To add environment variables in Dockerfile `ENV MONGO-USERNAME=admin`
 
 > Code live reload can be done using bind-mounts
+
+## Docker-compose
+
+### What is docker compose
+
+Docker Compose is a tool that allows you to replace, Docker build and Docker run commands.
+Not just one Docker build and one Docker run command, but potentially multiple Docker build and Docker run commands with just one configuration file.
+
+The configuration file will contain other orchestration commands, to start all the containers at once, also build all necessary images.
+
+We can use a one command to bring all those container up and running. we can also use one command to bring down all containers.
+
+Docker compose can be used for single container apps but it will have more features when we use multi container apps are used.
+
+### What is not docker-compose
+
+- Docker-compose will not replace Dockerfiles for custom images.
+- Docker-compose does not replace docker containers or images.
+- Docker-compose is not suitable for managing multiple containers in multiple hosts.
+
+> To start with docker compose we use a docker compose file.
+
+In a docker compose file we will add
+
+- Services(Containers)
+  - Published ports
+  - Environment Variables
+  - Volumes
+  - Networks
+
+### Creating a compose file
+#TODO
+
+### Installing docker-compose on a linux machine
+
+On macOS and Windows, you should already have Docker Compose installed - it's set up together with Docker there. On Linux machines, you need to install it separately.
+
+These steps should get you there:
+
+1. `sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
+2. `sudo chmod +x /usr/local/bin/docker-compose`
+3. `sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose`
+4. to verify: `docker-compose --version`
+
+Also see: https://docs.docker.com/compose/install/
