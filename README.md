@@ -43,7 +43,8 @@
     - [Docker Network Drivers](#docker-network-drivers)
     - [How do docker parse ip addresses](#how-do-docker-parse-ip-addresses)
   - [Building Multi Container apps with docker](#building-multi-container-apps-with-docker)
-  - [Adding networks to the apps](#adding-networks-to-the-apps)
+    - [Adding networks to the apps](#adding-networks-to-the-apps)
+    - [Persisting data with volumes](#persisting-data-with-volumes)
 
 # docker-alpha
 
@@ -882,10 +883,31 @@ CMD ["npm","start"]
 - To start the app use `docker run --name goals-front-end -it -p 3000:3000 goals-react`
 - We have to run in terminal interactive mode else react app will stop working after it starts.
 
-## Adding networks to the apps
+### Adding networks to the apps
 
 - Create a new network using `docker network create goals-network`
 - To add a container to the network while starting a container use `--network goals-network`
 - Use the container name to connect to the container.
 - For the React app we still need to expose the node app's ports.
 - As the code for react will be built in the browser instead of the server with in the container.
+
+### Persisting data with volumes
+
+- mongodb uses `/data/db` location to store database related information.
+- So we can add this as a named volume. `-v mongo-data:/data/db`.
+- To add security we can add username, password for authentication.
+- These can be added by using environment variables.
+- `-e MONGO_INITDB_ROOT_USERNAME` for adding a username.
+- `-e MONGO_INITDB_ROOT_PASSWORD` for adding a password.
+
+```
+docker run -d -p 27017:27017 --rm --name mongodb -e MONGO_INITDB_ROOT_USERNAME=admin e MONGO_INITDB_ROOT_PASSWORD=admin --network local-network mongo
+```
+
+- Now to connect to mongo db http://localhost:27017 will not work
+- We should add the username and password in the as shown `http://[username:password@]localhost:27017/database?authSource=admin`
+- example: `http://admin:admin@localhost:27017/goalsdb?authSource=admin`
+- To get environment variables in nodejs applications use `${process.env.ENVIRONMENT_VARIABLE_NAME}`
+- To add environment variables in Dockerfile `ENV MONGO-USERNAME=admin`
+
+> Code live reload can be done using bind-mounts
