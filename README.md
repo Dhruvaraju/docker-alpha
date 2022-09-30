@@ -932,7 +932,7 @@ Docker compose can be used for single container apps but it will have more featu
 
 ### What is not docker-compose
 
-- Docker-compose will not replace Dockerfiles for custom images.
+- Docker-compose will not replace Dockerfile for custom images.
 - Docker-compose does not replace docker containers or images.
 - Docker-compose is not suitable for managing multiple containers in multiple hosts.
 
@@ -947,6 +947,9 @@ In a docker compose file we will add
   - Networks
 
 ### Creating a compose file
+
+Compose file related information can be found at [Compose-File](https://docs.docker.com/compose/compose-file/)
+
 #TODO
 
 ### Installing docker-compose on a linux machine
