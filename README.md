@@ -1171,3 +1171,21 @@ volumes:
   data:
   logs:
 ```
+
+**docker-compose commands**
+
+- We can force build all the services which has a build step by using `docker-compose up --build`
+- To just build the images run `docker-compose build`
+- To run an individual service from a compose file use `docker-compose run <<service-name>>`
+- A new tag entry point can be used in dockerfile for appending the text mentioned in it to be appended for every command.
+
+example
+
+```dockerfile
+FROM node:14-alpine
+WORKDIR /app
+ENTRYPOINT ["npm]
+```
+
+- Now when the above docker file is used we can append install at the end like `docker run <image_build_from_dockerfile> install`. It will run npm install inside the container.
+- To run commands inside a running container use `docker exec -it <container_name> /bin/bash`, this will open a bash command inside the container. we can run commands of our choice by mentioning them instead of `/bin/bash`.
