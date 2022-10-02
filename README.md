@@ -50,6 +50,9 @@
     - [Docker compose is not](#docker-compose-is-not)
     - [Installing docker-compose on a linux machine](#installing-docker-compose-on-a-linux-machine)
     - [Creating a compose file](#creating-a-compose-file)
+    - [Starting and stopping docker-compose](#starting-and-stopping-docker-compose)
+    - [Compose file for backend](#compose-file-for-backend)
+    - [Adding config for frontend](#adding-config-for-frontend)
 
 # docker-alpha
 
@@ -1040,3 +1043,131 @@ volumes:
 ```
 
 > The above mentioned are the bare minimum for a compose file
+
+### Starting and stopping docker-compose
+
+- To start a docker compose file `docker-compose up`, this will start in attached mode.
+- To start in detached mode `docker-compose up -d`
+- To stop a compose file `docker-compose down`, this will remove all the containers but not the volumes.
+- To delete volumes on stop use `docker-compose down -v`, it will also delete the volumes and network.
+
+> `docker-compose up` will create a default network, create the requested volumes download all images or build all containers and start them.
+
+### Compose file for backend
+
+- as we are building an image from our source code we need to provide a build key
+
+```yml
+build: ./backend # path where the docker file is present
+```
+
+```yml
+build:
+  context: ./backend # path where all the required files are present
+  dockerfile: Dockerfile # name of the docker file, if we have multiple docker files
+  args:
+    version: 1.0 # Input parameters for the build
+```
+
+- To add exposed ports use `ports` key and mentions the ports as shown below
+
+```yml
+ports:
+  - "80:80"
+```
+
+- Bind mounts and unnamed volumes can be added as below
+
+```yml
+volumes:
+  - logs:/app/logs
+  - ./backend:/app
+  - /app/node_modules
+```
+
+- If the current container depends on some other container for any functions we can use
+
+```yml
+depends_on:
+  - service_name
+
+#example
+depends_on:
+  - mongodb
+```
+
+Complete backend configuration
+
+```yml
+backend:
+  build: ./backend
+  ports:
+    - "80:80"
+  volumes:
+    - logs:/app/logs
+    - ./backend:/app
+    - /app/node_modules
+  env_file:
+    - ./env/backend.env
+  depends_on:
+    - mongodb
+```
+
+### Adding config for frontend
+
+We can add all the attributes by taking reference from backend and mongo db, but frontend needs a terminal interactive mode. Add the keys `stdin_open` and `tty`. Then set this values to `true`
+
+Complete frontend config
+
+```yml
+frontend:
+  build: ./frontend
+  ports:
+    - "3000:3000"
+  volumes:
+    - ./frontend/src:/app/src
+  stdin_open: true
+  tty: true
+  depends_on:
+    - backend
+```
+
+complete compose yml will appear as below:
+
+```yml
+version: "3.8"
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=username
+      - MONGO_INITDB_ROOT_PASSWORD=password
+  backend:
+    build: ./backend
+    ports:
+      - "80:80"
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+volumes:
+  data:
+  logs:
+```
