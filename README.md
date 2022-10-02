@@ -47,9 +47,9 @@
     - [Persisting data with volumes](#persisting-data-with-volumes)
   - [Docker-compose](#docker-compose)
     - [What is docker compose](#what-is-docker-compose)
-    - [What is not docker-compose](#what-is-not-docker-compose)
-    - [Creating a compose file](#creating-a-compose-file)
+    - [Docker compose is not](#docker-compose-is-not)
     - [Installing docker-compose on a linux machine](#installing-docker-compose-on-a-linux-machine)
+    - [Creating a compose file](#creating-a-compose-file)
 
 # docker-alpha
 
@@ -930,7 +930,7 @@ We can use a one command to bring all those container up and running. we can als
 
 Docker compose can be used for single container apps but it will have more features when we use multi container apps are used.
 
-### What is not docker-compose
+### Docker compose is not
 
 - Docker-compose will not replace Dockerfile for custom images.
 - Docker-compose does not replace docker containers or images.
@@ -946,12 +946,6 @@ In a docker compose file we will add
   - Volumes
   - Networks
 
-### Creating a compose file
-
-Compose file related information can be found at [Compose-File](https://docs.docker.com/compose/compose-file/)
-
-#TODO
-
 ### Installing docker-compose on a linux machine
 
 On macOS and Windows, you should already have Docker Compose installed - it's set up together with Docker there. On Linux machines, you need to install it separately.
@@ -964,3 +958,85 @@ These steps should get you there:
 4. to verify: `docker-compose --version`
 
 Also see: https://docs.docker.com/compose/install/
+
+### Creating a compose file
+
+Compose file related information can be found at [Compose-File](https://docs.docker.com/compose/compose-file/)
+We describe the multi container app in the compose file.
+
+- Create a file named docker-compose.yaml, the extension can be yml or yaml.
+- The first thing which we need to mention is `version`, specify the docker compose version
+- Compose version and the compatible docker version is present at https://docs.docker.com/compose/compose-file/compose-versioning/
+- Next we mention `services` at the same level as version.
+- Services defines the number of containers we use, we need to define the name of those service with a two space indentation.
+- In the example we are using frontend, backend, mongodb
+- Information about each individual container is mentioned under the name of container by providing indentation.
+- Consider mongo configuration for the example
+- As we are building mongo DB from an image we need to mention the image name under `image` tag.
+
+```yml
+version: "3.8"
+  services:
+    mongodb:
+      image: "mongo"
+```
+
+- we do not have to add `--rm` tag because when we bring a container down using docker-compose they are removed by default.
+- We do not have to add detach mode also because it can be done while starting a docker compose.
+- Volumes can be added under `volumes tag as a list
+
+```yml
+volumes:
+  - data:/data/db
+  - config:/var/mongo/config
+```
+
+- Environment variables can be added under a `environment` tag or under a `env_file` tag if we are using separate environment var table.
+
+```yml
+environment:
+  MONGO_INITDB_ROOT_USERNAME: username
+  MONGO_INITDB_ROOT_PASSWORD: password
+```
+
+```yml
+environment:
+  - MONGO_INITDB_ROOT_USERNAME=username
+  - MONGO_INITDB_ROOT_PASSWORD=password
+```
+
+if an env file is created under `env` folder, which is located in the same folder as docker compose file, and env file name being mongo.env it can be mentioned as below.
+
+```yml
+env_file:
+  - ./env/mongo.env
+```
+
+- To add network we can add the `networks` key and add the network names below it
+
+```yml
+networks:
+  - networkName
+```
+
+- When we are having multiple containers in compose file we do not have to mention a network a network will be created by default and all the containers mentioned will be part of it by default.
+
+- When using named volumes we need to add them at the end of the compose file at the same level as services and mention the name of the volume.
+- We can then use the same volume for different services
+- No need to specify anonymous volumes and bind mounts
+
+```yml
+version: "3.8"
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=username
+      - MONGO_INITDB_ROOT_PASSWORD=password
+volumes:
+  data:
+```
+
+> The above mentioned are the bare minimum for a compose file
