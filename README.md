@@ -53,6 +53,7 @@
     - [Starting and stopping docker-compose](#starting-and-stopping-docker-compose)
     - [Compose file for backend](#compose-file-for-backend)
     - [Adding config for frontend](#adding-config-for-frontend)
+    - [Laraval and PHP containers](#laraval-and-php-containers)
 
 # docker-alpha
 
@@ -1189,3 +1190,19 @@ ENTRYPOINT ["npm]
 
 - Now when the above docker file is used we can append install at the end like `docker run <image_build_from_dockerfile> install`. It will run npm install inside the container.
 - To run commands inside a running container use `docker exec -it <container_name> /bin/bash`, this will open a bash command inside the container. we can run commands of our choice by mentioning them instead of `/bin/bash`.
+
+### Laraval and PHP containers
+
+A total of 6 containers will be created for this project:
+
+- [ ] PHP Interpreter
+- [ ] Nginx Web-server
+- [ ] Mysql Database
+
+Three utility container are also required
+
+- [ ] Composer
+- [ ] Laravel Artisan
+- [ ] npm
+
+
