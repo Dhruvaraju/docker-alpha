@@ -42,4 +42,9 @@
 - To make a volume readonly use `ro` like `docker run -v C:/temp:/app:ro <<image_name>>`
 - `docker volume prune` to delete all volumes which are not in use.
 - We can create a docker network by using `docker network create <<network-name>>`
-- To add a container to network  `docker run -d --name mongodb --network net-01 mongo`
+- To add a container to network `docker run -d --name mongodb --network net-01 mongo`
+
+- We can force build all the services which has a build step by using `docker-compose up --build`
+- To just build the images run `docker-compose build`
+- To run an individual service from a compose file use `docker-compose run <<service-name>>`
+- To run commands inside a running container use `docker exec -it <container_name> /bin/bash`, this will open a bash command inside the container. we can run commands of our choice by mentioning them instead of `/bin/bash`.

@@ -54,6 +54,7 @@
     - [Compose file for backend](#compose-file-for-backend)
     - [Adding config for frontend](#adding-config-for-frontend)
     - [Laraval and PHP containers](#laraval-and-php-containers)
+    - [Create project](#create-project)
 
 # docker-alpha
 
@@ -1205,4 +1206,10 @@ Three utility container are also required
 - [ ] Laravel Artisan
 - [ ] npm
 
+### Create project
 
+- Creating project using composer with help of docker-compose `docker-compose run --rm composer create-project laravel/laravel . 4.2 --prefer-dist`
+- If the above command throws an error use `docker-compose run --rm composer create-project --prefer-dist laravel/laravel .`
+
+- Add a new volume under server which is a bind mount `./src:/var/www/html`
+- We can start and test the containers using `docker-compose up -d server pht mysql`
